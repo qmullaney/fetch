@@ -13,6 +13,7 @@ let transactions = [];
 
 let payerScorecard = {};
 
+// adds points to transactions and updates scorecard
 function addTransaction(t) {
     t["date"] = new Date(t.timestamp)
 
@@ -22,6 +23,8 @@ function addTransaction(t) {
     transactions.splice(before, 0, t)
 }
 
+
+// takes a transaction and adds it to scorecard
 function addValueFromScorecard(t) {
     if (t.payer in payerScorecard){
         payerScorecard[t.payer] += t.points;
@@ -30,6 +33,7 @@ function addValueFromScorecard(t) {
     }
 }
 
+//removes points from scorecard 
 function removeValueFromScorecard(t){
     if (t.payer in payerScorecard){
         payerScorecard[t.payer] -= t.points;
@@ -38,6 +42,7 @@ function removeValueFromScorecard(t){
     }
 }
 
+// finds index to store incoming transaction in sorted list
 function findIndexBelow(t){
     let low = 0;
     let high = transactions.length;
@@ -54,7 +59,8 @@ function findIndexBelow(t){
     return low;
 }
 
-
+// increments through transactions until all points are gone
+// updates scorecard and transaction array accordingly
 function processPoints(points) {
     const pointsRemoved = {};
 
